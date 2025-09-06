@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduX — Learn Better</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <style>
+    :root{
+      --bg:#f9fafc; --fg:#1a1a1a; --muted:#555; --brand1:#4facfe; --brand2:#43e97b; --brand3:#f9d423; --glass:rgba(255,255,255,0.7);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,system-ui,Segoe UI,Roboto,Arial;color:var(--fg);background:var(--bg);overflow-x:hidden;scroll-behavior:smooth;opacity:0;animation:pageFadeIn 1.2s ease forwards}
+
+    @keyframes pageFadeIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+
+    /* Scroll progress bar */
+    #progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(270deg,var(--brand1),var(--brand2),var(--brand3));background-size:600% 600%;width:0%;z-index:100;box-shadow:0 0 10px rgba(79,172,254,0.6);animation:pulseGlow 1.5s infinite alternate, gradientShift 6s ease infinite}
+
+    @keyframes pulseGlow{
+      0%{box-shadow:0 0 6px rgba(79,172,254,0.4),0 0 12px rgba(67,233,123,0.4)}
+      100%{box-shadow:0 0 14px rgba(79,172,254,0.9),0 0 28px rgba(67,233,123,0.9)}
+    }
+
+    @keyframes gradientShift{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(255,255,255,0.85);border-bottom:1px solid rgba(0,0,0,0.06)}
+    .nav-wrap{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.5px;color:var(--brand1)}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 90deg, var(--brand1), var(--brand2), var(--brand3))}
+    .menu{display:flex;gap:10px;opacity:1;pointer-events:auto;transition:opacity .6s ease}
+    .chip{padding:8px 14px;border-radius:999px;font-weight:600;text-decoration:none;color:white;background:linear-gradient(135deg,var(--brand1),var(--brand2));box-shadow:0 4px 12px rgba(79,172,254,.28);transition:.25s;font-size:14px;position:relative;overflow:hidden;cursor:pointer}
+    .chip:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(79,172,254,0.6),0 0 40px rgba(67,233,123,0.6);background:linear-gradient(135deg,var(--brand2),var(--brand1))}
+
+    .hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:900px;margin:0 auto;padding:40px 16px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(at 20% 30%, var(--brand1), transparent 60%),radial-gradient(at 80% 20%, var(--brand2), transparent 60%),radial-gradient(at 50% 80%, var(--brand3), transparent 60%),radial-gradient(at 10% 90%, #fbc2eb, transparent 60%);background-blend-mode:screen;animation:meshMove 15s ease infinite alternate}
+
+    @keyframes meshMove{
+      0%{background-position:20% 30%, 80% 20%, 50% 80%, 10% 90%}
+      50%{background-position:30% 40%, 70% 30%, 60% 70%, 20% 80%}
+      100%{background-position:20% 30%, 80% 20%, 50% 80%, 10% 90%}
+    }
+
+    .hero h1{font-size:clamp(28px,5vw,52px);line-height:1.1;margin-bottom:12px;animation:fadeDown 1.2s ease forwards;z-index:2;position:relative;color:#222}
+    .gradient-text{background:linear-gradient(90deg,var(--brand1),var(--brand2),var(--brand3));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{color:var(--muted);font-size:clamp(15px,2vw,18px);max-width:620px;margin:0 auto 20px;opacity:0;animation:fadeUp 1.5s ease forwards 0.5s;z-index:2;position:relative}
+    .cta .btn{padding:12px 20px;border-radius:12px;border:1px solid rgba(0,0,0,0.1);background:var(--glass);color:var(--fg);text-decoration:none;font-weight:600;font-size:16px;transition:.25s;opacity:0;animation:fadeUp 1.5s ease forwards 1s;z-index:2;position:relative;overflow:hidden;cursor:pointer}
+    .cta .btn.primary{background:linear-gradient(135deg,var(--brand1),var(--brand2));border:none;box-shadow:0 6px 20px rgba(79,172,254,.28);color:white}
+    .cta .btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(79,172,254,0.6),0 0 40px rgba(67,233,123,0.6)}
+
+    /* Ripple effect */
+    .ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple 600ms linear;background:rgba(255,255,255,0.6);pointer-events:none}
+    @keyframes ripple{to{transform:scale(4);opacity:0}}
+
+    @keyframes fadeUp{0%{transform:translateY(30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+    @keyframes fadeDown{0%{transform:translateY(-30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+
+    .section{max-width:1000px;margin:0 auto;padding:50px 16px;text-align:center}
+    .section h2{font-size:clamp(24px,4vw,34px);margin-bottom:10px;color:#222}
+    .sub{color:var(--muted);margin-bottom:20px}
+
+    .timetable{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+    .timetable img{width:100%;height:200px;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,0.1);box-shadow:0 8px 20px rgba(0,0,0,.1);transition:.3s}
+    .timetable img:hover{transform:scale(1.03)}
+
+    .pdf-list{display:flex;flex-direction:column;align-items:center;gap:10px}
+    .pdf-list a{display:inline-block;padding:12px 22px;font-size:15px;font-weight:600;text-decoration:none;color:white;border-radius:8px;background:linear-gradient(135deg,var(--brand1),var(--brand2));box-shadow:0 3px 8px rgba(0,0,0,0.2);transition:.25s;width:250px;text-align:center;position:relative;overflow:hidden;cursor:pointer}
+    .pdf-list a:hover{transform:translateY(-2px)}
+
+    .subhead{margin-top:24px;margin-bottom:6px;font-size:18px;color:#333}
+
+    footer{padding:30px 16px;text-align:center;color:var(--muted);font-size:14px;background:#fff;border-top:1px solid rgba(0,0,0,0.06)}
+
+    /* Scroll-to-top button */
+    #scrollTopBtn{position:fixed;bottom:30px;right:30px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--brand1),var(--brand2));color:white;border:none;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .3s, transform .3s;z-index:200;overflow:hidden}
+    #scrollTopBtn:hover{transform:scale(1.1);box-shadow:0 0 20px rgba(79,172,254,0.6),0 0 40px rgba(67,233,123,0.6)}
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+
+  <nav>
+    <div class="nav-wrap">
+      <div class="brand"><div class="logo"></div> EduX</div>
+      <div class="menu" id="menu">
+        <a class="chip" href="#home">Home</a>
+        <a class="chip" href="#assignments">Assignment</a>
+        <a class="chip" href="#solutions">Materials</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <h1 id="hero-title">Upgrade your <span class="gradient-text">Learning Journey</span></h1>
+    <p id="hero-text">Smooth animations and live pastel effects for timetables, assignments & solutions.</p>
+    <div class="cta">
+      <a href="#assignments" class="btn primary" id="hero-btn">Get Started</a>
+    </div>
+  </header>
+
+  <section class="section" id="timetables">
+    <h2 data-aos="fade-up">Timetables</h2>
+    <p class="sub" data-aos="fade-up">Quick glance at A/B/C divisions.</p>
+    <div class="timetable">
+      <img data-aos="fade-up" src="a_time.jpg" alt="DIV A Timetable">
+      <img data-aos="fade-up" data-aos-delay="100" src="b_time.jpg" alt="DIV B Timetable">
+      <img data-aos="fade-up" data-aos-delay="200" src="c_time.jpg" alt="DIV C & D Timetable">
+    </div>
+  </section>
+
+  <section class="section" id="assignments">
+    <h2 data-aos="fade-up">Assignment Question</h2>
+    <div class="pdf-list" data-aos="fade-up" data-aos-delay="100">
+      <a href="Database_Assignment1.pdf" target="_blank">📘 Database Technology</a>
+      <a href="Java_Assignment1.pdf" target="_blank">☕ Java Assignments - Part 1</a>
+      <a href="Java_Assignment2.pdf" target="_blank">☕ Java Assignments - Part 2</a>
+      <a href="PHP_Assignment1.pdf" target="_blank">🌐 PHP Assignment</a>
+    </div>
+  </section>
+
+  <section class="section" id="solutions">
+    <h2 data-aos="fade-up">Assignment Solution</h2>
+    <div class="subhead" data-aos="fade-up">☕ JAVA</div>
+    <div class="pdf-list" data-aos="fade-up" data-aos-delay="100">
+      <a href="Java_Solution1.pdf" target="_blank">Java Solution - Part 1</a>
+      <a href="Java_Solution2.pdf" target="_blank">Java Solution - Part 2</a>
+    </div>
+
+    <div class="subhead" data-aos="fade-up">🌐 PHP</div>
+    <div class="pdf-list" data-aos="fade-up" data-aos-delay="100">
+      <a href="PHP_Solution1.pdf" target="_blank">PHP Solution - Part 1</a>
+    </div>
+
+    <div class="subhead" data-aos="fade-up">📘 DB</div>
+    <div class="pdf-list" data-aos="fade-up" data-aos-delay="100">
+      <a href="Database_Solution1.pdf" target="_blank">Database Solution - Part 1</a>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> EduX. Built with ♥ for learning.</footer>
+
+  <!-- Scroll-to-top button -->
+  <button id="scrollTopBtn">⬆</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+    AOS.init({duration:800,once:true,offset:60});
+
+    // Scroll progress bar update
+    const progressBar=document.getElementById('progress-bar');
+    window.addEventListener('scroll',()=>{
+      let scrollTop=window.scrollY;
+      let docHeight=document.body.scrollHeight-window.innerHeight;
+      let scrollPercent=(scrollTop/docHeight)*100;
+      progressBar.style.width=scrollPercent+"%";
+
+      // Show scroll-to-top button
+      const scrollBtn=document.getElementById('scrollTopBtn');
+      if(scrollTop>200){scrollBtn.style.opacity="1";scrollBtn.style.pointerEvents="auto"}
+      else{scrollBtn.style.opacity="0";scrollBtn.style.pointerEvents="none"}
+    });
+
+    // Scroll-to-top functionality
+    document.getElementById('scrollTopBtn').addEventListener('click',createRipple);
+    document.getElementById('scrollTopBtn').addEventListener('click',()=>{
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // Parallax effect on hero elements
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      document.getElementById('hero-title').style.transform = `translateY(${scrollY * 0.2}px)`;
+      document.getElementById('hero-text').style.transform = `translateY(${scrollY * 0.3}px)`;
+      document.getElementById('hero-btn').style.transform = `translateY(${scrollY * 0.4}px)`;
+    });
+
+    // Ripple effect for buttons, chips, and links
+    function createRipple(event){
+      const button = event.currentTarget;
+      const circle = document.createElement("span");
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+      circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+      circle.classList.add("ripple");
+      const ripple = button.getElementsByClassName("ripple")[0];
+      if(ripple){ripple.remove();}
+      button.appendChild(circle);
+    }
+
+    document.querySelectorAll('.btn, .chip, .pdf-list a').forEach(el => {
+      el.addEventListener("click", createRipple);
+    });
+  </script>
+</body>
+</html>
